@@ -1,3 +1,21 @@
+pub struct Guess{
+    value: i32, 
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}!", value)
+        }
+
+        Guess { value }
+    }
+
+    pub fn value(&self) -> i32 {
+        self.value
+    }
+}
+
 // import libraries
 use std::io;
 use rand::Rng;
@@ -15,25 +33,27 @@ fn main() {
         println!("Please input your guess...");
 
         // mutable guess variable, user input
-        let mut guess = String::new(); 
+        let mut input = String::new(); 
         
         // read user input
         io::stdin()
-            .read_line(&mut guess)
+            .read_line(&mut input)
             .expect("Failed to read line");
 
         // change guess data-type to int
         // conditionally ignore non-int inputs
-        let guess: u32 = match guess.trim().parse() {
+        let input: i32 = match input.trim().parse() {
             Ok(num) => num,
             Err(_) => continue,
         };
 
+        let guess = Guess::new(input);
+
         // if Report = Ok(num), report user input
-        println!("You guessed: {guess}");
+        println!("You guessed: {}", guess.value);
 
         // match guesses to sec_num
-        match guess.cmp(&sec_num) {
+        match guess.value.cmp(&sec_num) {
             Ordering::Less => println!("Too small!"),
             Ordering::Greater => println!("Too big!"),
             Ordering::Equal => {
