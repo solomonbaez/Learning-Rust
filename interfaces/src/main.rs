@@ -45,6 +45,15 @@ impl Summary for Tweet {
     }
 }
 
+pub fn notify<T: Summary>(item: &T, news_or_tweet: bool) {
+    if news_or_tweet {
+        println!("Breaking: {}", item.summarize());
+    }
+    else {
+        println!("1 new tweet: {}", item.summarize());
+    };
+}
+
 fn main() {
     let tweet = Tweet {
         username: String::from("XXX_420_XXX"),
@@ -52,8 +61,6 @@ fn main() {
         reply: false,
         retweet: false,
     };
-
-    println!("1 new tweet: {}", tweet.summarize());
 
     let article = NewsArticle {
         headline: String::from("CS:GO 2 Announced"),
@@ -64,5 +71,6 @@ fn main() {
                 ensuring new features and updates for years to come..."),
     };
 
-    println!("New article relating to {}: {}", article.location, article.summarize());
+    notify(&tweet, false);
+    notify(&article, true);
 }
