@@ -12,18 +12,15 @@ fn main() {
     // unwrap result and pass error if not Ok
     let configs = Config::build(&args)
         .unwrap_or_else(|err| {
-            println!("Problem parsing arguments: {}", err);
             // stop the process
+            eprintln!("Problem parsing arguments: {}", err);
             process::exit(1);
         });
-
-    println!("Searching for query: {}", configs.query);
-    println!("In file {}", configs.file_path);
 
     // if let is called to check whether run returns an Err
     // no need to unwrap as the Ok() is "null"
     if let Err(e) = minigrep::run(configs){
-        println!("Application error: {}", e);
+        eprintln!("Application error: {}", e);
         process::exit(1);
     }
 }
