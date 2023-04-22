@@ -10,13 +10,22 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn build(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments -> expected 3");
-        }
-        // somewhat inneficient but deep copy the data
-        let query = args[1].clone();
-        let file_path = args[2].clone();
+    pub fn build(
+        mut args: impl Iterator<Item = String> // args can be any type of iterator -> string
+    ) -> Result<Config, &'static str> {
+        // skip program name
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("didn't get a query string"),
+        };
+
+        let file_path = match args.next() {
+            Some(arg) => arg,
+            None => return Err("didnt' get a file path")
+        };
+
         // set case sensitivity
         let ignore_case = if env::var("IGNORE_CASE").is_ok() {
             println!("Case insensitive analysis:");
@@ -32,29 +41,19 @@ impl Config {
 
 // assign lifetime signature to the contents as we want them returned
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-    
-    // search for contents
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-    // return contents
-    results
+    contents 
+        .lines()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     let query = query.to_lowercase();
-    let mut results = Vec::new();
-
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            results.push(line);
-        }
-    }
-
-    results 
+    
+    contents
+        .lines()
+        .filter(|line| line.contains(&query))
+        .collect()
 }
 
 // allow for dynamic error report

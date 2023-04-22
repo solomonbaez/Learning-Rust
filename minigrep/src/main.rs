@@ -5,12 +5,10 @@ use std::process;
 use minigrep::Config;
 
 fn main() {
-    // pull cl-args, collect specifies the collection
-    let args: Vec<String> = env::args().collect();
-    
     // build configuration item
+    // built iterator with env::args
     // unwrap result and pass error if not Ok
-    let configs = Config::build(&args)
+    let configs = Config::build(env::args())
         .unwrap_or_else(|err| {
             // stop the process
             eprintln!("Problem parsing arguments: {}", err);
