@@ -1,0 +1,1 @@
+/Users/solomon/rust-projects/pancakes/target/debug/pancakes: /Users/solomon/rust-projects/pancakes/hello_macro/hello_macro_derive/src/lib.rs /Users/solomon/rust-projects/pancakes/hello_macro/src/lib.rs /Users/solomon/rust-projects/pancakes/src/main.rs
