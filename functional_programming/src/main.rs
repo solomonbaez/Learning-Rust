@@ -6,11 +6,11 @@ fn main() {
 
 fn my_filter<T: Copy>(input: Vec<T>, filter_fn: &dyn Fn(T) -> bool) -> Vec<T> {
     let mut filtered_vec = Vec::<T>::new();
-    for v in input {
+    input.into_iter().for_each(|v| {
         if filter_fn(v) {
-            filtered_vec.push(v);
+            filtered_vec.push(v)
         }
-    }
+    });
 
     filtered_vec
 }
@@ -18,3 +18,6 @@ fn my_filter<T: Copy>(input: Vec<T>, filter_fn: &dyn Fn(T) -> bool) -> Vec<T> {
 fn filter_is_even(x: u32) -> bool {
     (x % 2) == 0
 }
+// fn filter_is_odd(x: u32) -> bool {
+//     (x % 2) != 0
+// }
