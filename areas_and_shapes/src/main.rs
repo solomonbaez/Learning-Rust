@@ -1,5 +1,6 @@
 use ::std::f32::consts::PI;
 
+#[derive(Debug)]
 enum Shape {
     Circle { r: f32 },
     Triangle { h: f32, b: f32 },
@@ -20,15 +21,15 @@ impl Shape {
 
 fn main() {
     let circle = Shape::Circle { r: 10.0 };
-    println!("{}", circle.area());
+    println!("The area of {:?} is: {}", circle, circle.area());
 
     let triangle = Shape::Triangle { h: 10.0, b: 30.0 };
-    println!("{}", triangle.area());
+    println!("The area of {:?} is: {}", triangle, triangle.area());
 
     let rectangle = Shape::Rectangle {
         l: 1.0,
         w: 2.0,
         h: 2.0,
     };
-    println!("{}", rectangle.area());
+    println!("The area of {:?} is: {}", rectangle, rectangle.area());
 }
